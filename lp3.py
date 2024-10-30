@@ -11,7 +11,6 @@ from PySide2.QtUiTools import QUiLoader
 from PySide2.QtWidgets import QLineEdit, QPushButton, QWidget, QFileDialog, QMessageBox, QVBoxLayout, \
                               QTableWidget, QTableWidgetItem, QApplication
 
-
 rcParams['font.sans-serif'] = ['SimHei']    # 选择合适的中文字体
 rcParams['axes.unicode_minus'] = False      # 解决负号 '-' 显示为方块的问题
 workDir = os.path.abspath(os.path.dirname(sys.argv[0]))
@@ -201,7 +200,7 @@ class MainWindow:
         canvas.draw()
 
     def GetImgPath(self):
-        filepath, _ = QFileDialog.getOpenFileName(self.ui, "选择车牌图像", workDir, "位图(*.bmp)")
+        filepath, _ = QFileDialog.getOpenFileName(self.ui, "选择车牌图像", workDir, "位图(*.bmp,*.png)")
         if filepath:
             self.box_imgpath.setText(filepath)
 
@@ -242,7 +241,7 @@ class MainWindow:
         """识别车牌"""
         if self.wgt_fig1.count() < 1:   # 未加载图片
             self.LoadImg()
-        if len(templates)<1 or len(templates.values()[0])<1:    # 未加载模板
+        if len(templates)<1 or len(list(templates.values())[0])<1:    # 未加载模板
             self.LoadTp()
         result, fig = Recognize()
         self.box_rec.setText(result)
@@ -251,6 +250,7 @@ class MainWindow:
 
 
 if __name__ == '__main__':
+    os.system("")   # 使CMD支持彩色输出
     app = QApplication([])
     window = MainWindow()
     window.ui.show()
